@@ -15,7 +15,7 @@ public:
 	OrderManager();
 	~OrderManager();
 
-	void ReadOrdersFromFile(std::string file);
+	void ReadOrdersFromFile(std::string file); 
 
 	void CreateOrder(Order* o);
 	std::vector<Order*> ReadOrders(std::string s);
