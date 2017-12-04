@@ -1,12 +1,19 @@
 #ifndef __DRONEMANAGER_H
 #define __DRONEMANAGER_H
 
-#include "Manager.h"
+#define DRONENUM 6
 
-class DroneManager : public Manager{
+#include "Manager.h"
+#include "Drone.h"
+#include <vector>
+
+class DroneManager : public Manager {
 public:
 	DroneManager();
+	DroneManager(int d);
 	~DroneManager();
+
+	std::vector<Drone*> Drones;
 
 	void run();
 	void UpdateStatus();

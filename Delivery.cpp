@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "Delivery.h"
 
-
-
 Delivery::Delivery(){
 	om = new OrderManager();
 	rm = new RouteManager(om);
 	dm = new DroneManager();
 }
-
 
 Delivery::~Delivery(){
 }

@@ -3,24 +3,39 @@
 
 
 
-DroneManager::DroneManager(){
+DroneManager::DroneManager() {
+	for (int i = 0; i < DRONENUM; i++) {
+		Drone* drone = new Drone();
+		Drones.push_back(drone);
+	}
 }
 
-
-DroneManager::~DroneManager(){
+DroneManager::DroneManager(int d) {
+	for (int i = 0; i < d; i++) {
+		Drone* drone = new Drone();
+		Drones.push_back(drone);
+	}
 }
 
-void DroneManager::run(){
+DroneManager::~DroneManager() {
 }
 
-void DroneManager::UpdateStatus(){
+void DroneManager::run() {
+	WriteDrones();
+
+	while (1) {//TODO: while !completed
+		CheckStatuses();
+	}
 }
 
-void DroneManager::WriteDrones(){
+void DroneManager::UpdateStatus() {
 }
 
-void DroneManager::CheckStatuses(){
+void DroneManager::WriteDrones() {
 }
 
-void DroneManager::HealthCheck(){
+void DroneManager::CheckStatuses() {
+}
+
+void DroneManager::HealthCheck() {
 }
