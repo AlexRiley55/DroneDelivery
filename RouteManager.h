@@ -20,6 +20,8 @@ public:
 
 	void writeDatabase(std::string file);
 
+	std::vector<Route*> getRoutes();
+
 	RouteDAO* DAO;
 	OrderManager* om;
 };

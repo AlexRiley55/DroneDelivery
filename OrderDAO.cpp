@@ -28,7 +28,7 @@ void  OrderDAO::CreateOrder(Order* o) {
 	pstmt->setInt(4, o->dest.x);
 	pstmt->setInt(5, o->dest.y);
 	pstmt->setInt(6, o->dest.z);
-	pstmt->setInt(7, 1);
+	pstmt->setInt(7, o->StatusKey);
 
 	int resInt = pstmt->executeUpdate();
 	
@@ -57,6 +57,30 @@ int OrderDAO::getOrderCount() {
 }
 
 std::vector<Order*> OrderDAO::getOrders(){
+	sql::Statement *stmt;
+	sql::ResultSet *res;
+	stmt = con->createStatement();
+	res = stmt->executeQuery("SELECT * FROM Orders o, Status s WHERE o.StatusKey = s.StatusID");
+
+	delete stmt;
+
+	std::vector<Order*> output;
+
+	while (res->next()) {
+		Point3D s;
+		s.x = res->getInt(2);  s.y = res->getInt(3); s.z = res->getInt(4);
+		Point3D d;
+		d.x = res->getInt(5);  d.y = res->getInt(6); d.z = res->getInt(7);
+
+		Order* out = new Order(res->getInt(1), s, d, res->getInt(8));
+
+		output.push_back(out);
+	}
+
+	return output;
+}
+
+std::vector<Order*> OrderDAO::getInitialOrders() {
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();

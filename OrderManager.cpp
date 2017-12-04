@@ -87,6 +87,10 @@ std::vector<Order*> OrderManager::getOrders(){
 	return DAO->getOrders();
 }
 
+std::vector<Order*> OrderManager::getInitialOrders(){
+	return DAO->getInitialOrders();
+}
+
 void OrderManager::CreateOrder(Order* o){
 	DAO->CreateOrder(o);
 }

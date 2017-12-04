@@ -110,3 +110,26 @@ void RouteDAO::DeleteRoute(int id) {//TODO: unfinished
 
 }
 
+std::vector<Route*> RouteDAO::getRoutes(){
+	sql::Statement *stmt;
+	sql::ResultSet *res;
+	stmt = con->createStatement();
+	res = stmt->executeQuery("SELECT * FROM Routes r, RoutePosition rp WHERE rp.RoutesKey = r.RouteID");
+
+	delete stmt;
+
+	std::vector<Route*> output;
+
+	while (res->next()) {
+		Point3D s;
+		s.x = res->getInt(2);  s.y = res->getInt(3); s.z = res->getInt(4);
+		Point3D d;
+		d.x = res->getInt(5);  d.y = res->getInt(6); d.z = res->getInt(7);
+
+		//Route* out = new Route(res->getInt(1), res->getInt(2), new std::vector<Point3D>); //TODO: Doesn't work?
+		//output.push_back(out);
+	}
+
+	return output;
+}
+

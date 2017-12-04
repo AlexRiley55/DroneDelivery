@@ -31,11 +31,11 @@ int main(void) {
 
 	std::cout << om->fileName << "\n";
 
-	Order* to = testOrder();
-	om->CreateOrder(to);
+	//Order* to = testOrder();
+	//om->CreateOrder(to);
 
 	om->run();
-	om->writeDatabase("DailyOrders.csv");
+	//om->writeDatabase("DailyOrders.csv");
 
 	RouteManager* rm = new RouteManager(om);
 	rm->run();

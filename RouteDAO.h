@@ -34,6 +34,7 @@ public:
 
 	void DeleteRoute(int id);
 
+	std::vector<Route*> getRoutes();
 };
 
 #endif

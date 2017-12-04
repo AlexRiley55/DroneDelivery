@@ -18,10 +18,12 @@ void Delivery::Activate(){
 
 void Delivery::RunOrderManager(){
 	om->run();
+	om->writeDatabase("DailyOrders.csv");
 }
 
 void Delivery::RunRouteManager(){
 	rm->run();
+	//rm->writeDatabase("DailyRoutes.csv");
 }
 
 void Delivery::RunDroneManager(){

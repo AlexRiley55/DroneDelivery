@@ -26,6 +26,7 @@ public:
 	void run();
 
 	std::vector<Order*> getOrders();
+	std::vector<Order*> getInitialOrders();
 
 	void writeDatabase(std::string file);
 
