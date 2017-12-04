@@ -9,10 +9,14 @@
 
 #include "Order.h"
 #include "OrderDAO.h"
+#include <vector>
 
 class OrderManager : public Manager{
+private:
+	
 public:
 	OrderManager();
+	OrderManager(std::string fn);
 	~OrderManager();
 
 	void ReadOrdersFromFile(std::string file); 
@@ -21,9 +25,12 @@ public:
 	std::vector<Order*> ReadOrders(std::string s);
 	void run();
 
-	std::vector<Order*> getInitalOrders();
+	std::vector<Order*> getOrders();
+
+	void writeDatabase(std::string file);
 
 	OrderDAO* DAO;
+	std::string fileName;
 };
 
 #endif // !__ORDERMANAGER_H

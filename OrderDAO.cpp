@@ -56,7 +56,7 @@ int OrderDAO::getOrderCount() {
 	return count;
 }
 
-std::vector<Order*> OrderDAO::getInitalOrders(){
+std::vector<Order*> OrderDAO::getOrders(){
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();

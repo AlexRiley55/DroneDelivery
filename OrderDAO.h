@@ -28,7 +28,7 @@ public:
 
 	int getOrderCount();
 
-	std::vector<Order*> getInitalOrders();
+	std::vector<Order*> getOrders();
 	
 	Order* ReadOrder(int id);
 
@@ -36,6 +36,7 @@ public:
 
 	void DeleteOrder(int id);
 	
+
 };
 
 #endif

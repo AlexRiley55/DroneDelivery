@@ -20,6 +20,8 @@ public:
 	void WriteDrones();
 	void CheckStatuses();
 	void HealthCheck();
+
+	void writeDatabase(std::string file);
 };
 
 #endif // !__DRONEMANAGER_H

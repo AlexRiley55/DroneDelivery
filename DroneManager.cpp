@@ -39,3 +39,7 @@ void DroneManager::CheckStatuses() {
 
 void DroneManager::HealthCheck() {
 }
+
+void DroneManager::writeDatabase(std::string file){
+
+}

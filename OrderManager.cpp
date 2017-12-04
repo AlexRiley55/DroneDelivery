@@ -3,6 +3,12 @@
 
 OrderManager::OrderManager(){
 	DAO = new OrderDAO();
+	fileName = "orders.csv";
+}
+
+OrderManager::OrderManager(std::string fn){
+	DAO = new OrderDAO();
+	fileName = fn;
 }
 
 OrderManager::~OrderManager(){
@@ -14,6 +20,8 @@ void OrderManager::ReadOrdersFromFile(std::string file){
 
 	if (orderFile.is_open()){
 		
+		std::getline(orderFile, line);//first line is the labels
+
 		while (std::getline(orderFile, line)){//TODO: Error checking
 			std::stringstream ss(line);
 			std::string temp;
@@ -75,8 +83,8 @@ void OrderManager::ReadOrdersFromFile(std::string file){
 	else std::cout << "Unable to open file";
 }
 
-std::vector<Order*> OrderManager::getInitalOrders(){
-	return DAO->getInitalOrders();
+std::vector<Order*> OrderManager::getOrders(){
+	return DAO->getOrders();
 }
 
 void OrderManager::CreateOrder(Order* o){
@@ -88,5 +96,42 @@ std::vector<Order*> OrderManager::ReadOrders(std::string s){
 }
 
 void OrderManager::run(){
-	ReadOrdersFromFile("Orders.txt");
+	ReadOrdersFromFile(fileName);
+}
+
+void OrderManager::writeDatabase(std::string file) {//TODO go grab the actual status
+	std::ofstream outputFile(file);
+	if (outputFile.is_open()) {
+		outputFile << "OrderID,";
+		outputFile << "SrcX,";
+		outputFile << "SrcY,";
+		outputFile << "SrcZ,";
+		outputFile << "DestX,";
+		outputFile << "DestY,";
+		outputFile << "DestZ,";
+		outputFile << "StatusKey,";
+		outputFile << "\n";
+
+		std::vector<Order*> temp = getOrders();
+		for (int i = 0; i < temp.size(); i++) {
+			outputFile << temp[i]->ID;
+			outputFile << ",";
+			outputFile << temp[i]->source.x;
+			outputFile << ",";
+			outputFile << temp[i]->source.y;
+			outputFile << ",";
+			outputFile << temp[i]->source.z;
+			outputFile << ",";
+			outputFile << temp[i]->dest.x;
+			outputFile << ",";
+			outputFile << temp[i]->dest.y;
+			outputFile << ",";
+			outputFile << temp[i]->dest.z;
+			outputFile << ",";
+			outputFile << temp[i]->StatusKey;
+			outputFile << "\n";
+		}
+
+		outputFile.close();
+	}
 }

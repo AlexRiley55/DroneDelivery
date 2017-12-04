@@ -18,6 +18,8 @@ public:
 
 	Route* CalculateRoute(Order* o);
 
+	void writeDatabase(std::string file);
+
 	RouteDAO* DAO;
 	OrderManager* om;
 };

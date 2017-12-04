@@ -17,7 +17,7 @@ RouteManager::~RouteManager(){
 }
 
 void RouteManager::run(){
-	std::vector<Order*> orders = om->getInitalOrders();
+	std::vector<Order*> orders = om->getOrders();
 	for (unsigned int i = 0; i < orders.size(); i++) {
 		CalculateRoute(orders[i]);
 	}
@@ -31,4 +31,8 @@ Route* RouteManager::CalculateRoute(Order* o){
 	points.push_back(o->dest);
 	
 	return new Route(o->ID, points);
+}
+
+void RouteManager::writeDatabase(std::string file){
+
 }

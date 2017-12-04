@@ -16,6 +16,8 @@ int main(void) {
 	od->CreateOrder(o);
 	od->getOrderCount();
 	*/
+
+	/*
 	RouteDAO* rd = new RouteDAO();
 	Route* r1 = testRoute();
 	Route* r2 = testRoute();
@@ -23,13 +25,17 @@ int main(void) {
 	rd->CreateRoute(r1);
 	rd->CreateRoute(r2);
 	rd->getRouteCount();
-	
+	*/
 
 	OrderManager* om = new OrderManager();
+
+	std::cout << om->fileName << "\n";
+
 	Order* to = testOrder();
 	om->CreateOrder(to);
 
 	om->run();
+	om->writeDatabase("DailyOrders.csv");
 
 	RouteManager* rm = new RouteManager(om);
 	rm->run();
