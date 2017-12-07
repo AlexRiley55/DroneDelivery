@@ -114,22 +114,53 @@ std::vector<Route*> RouteDAO::getRoutes(){
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT * FROM Routes r, RoutePosition rp WHERE rp.RoutesKey = r.RouteID");
+	res = stmt->executeQuery("SELECT * FROM Routes r");
 
 	delete stmt;
 
 	std::vector<Route*> output;
 
 	while (res->next()) {
-		Point3D s;
-		s.x = res->getInt(2);  s.y = res->getInt(3); s.z = res->getInt(4);
-		Point3D d;
-		d.x = res->getInt(5);  d.y = res->getInt(6); d.z = res->getInt(7);
-
-		//Route* out = new Route(res->getInt(1), res->getInt(2), new std::vector<Point3D>); //TODO: Doesn't work?
-		//output.push_back(out);
+		int ok = res->getInt(2);
+		int id = res->getInt(1);
+		std::vector<Point3D> vec = getPoints(id);
+		Route* out = new Route(ok, id, vec);
+		output.push_back(out);
 	}
 
+	return output;
+}
+
+std::vector<Point3D> RouteDAO::getPoints(int id) {
+	/*sql::Statement *stmt;
+	sql::ResultSet *res;
+	stmt = con->createStatement();
+	std::string str = "SELECT * RoutePosition rp WHERE rp.RoutesKey = " + id;
+	str + ";";
+	res = stmt->executeQuery(str);
+
+	delete stmt;*/
+
+	sql::PreparedStatement *pstmt;
+	sql::ResultSet *res;
+
+	pstmt = con->prepareStatement("SELECT * FROM RoutePosition WHERE RoutesKey = ?;");
+	pstmt->setInt(1, id);
+
+	res = pstmt->executeQuery();
+
+	std::vector<Point3D> output;
+
+	while (res->next()) {
+		Point3D p;
+
+		p.x = res->getInt(3);
+		p.y = res->getInt(4);
+		p.z = res->getInt(5);
+		
+		output.push_back(p);
+	}
+	
 	return output;
 }
 

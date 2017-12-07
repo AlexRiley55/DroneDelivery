@@ -113,7 +113,7 @@ void OrderManager::writeDatabase(std::string file) {//TODO go grab the actual st
 		outputFile << "DestX,";
 		outputFile << "DestY,";
 		outputFile << "DestZ,";
-		outputFile << "StatusKey,";
+		outputFile << "Status";
 		outputFile << "\n";
 
 		std::vector<Order*> temp = getOrders();
@@ -132,8 +132,26 @@ void OrderManager::writeDatabase(std::string file) {//TODO go grab the actual st
 			outputFile << ",";
 			outputFile << temp[i]->dest.z;
 			outputFile << ",";
-			outputFile << temp[i]->StatusKey;
-			outputFile << "\n";
+			switch (temp[i]->StatusKey) {
+			case 1:
+				outputFile << "Initial\n";
+				break;
+			case 2:
+				outputFile << "Route Ready\n";
+				break;
+			case 3:
+				outputFile << "En Route\n";
+				break;
+			case 4:
+				outputFile << "Complete\n";
+				break;
+			case 5:
+				outputFile << "Failed\n";
+				break;
+			case 6:
+				outputFile << "Archived\n";
+				break;
+			}
 		}
 
 		outputFile.close();

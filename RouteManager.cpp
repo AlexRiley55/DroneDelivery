@@ -28,6 +28,11 @@ Route* RouteManager::CalculateRoute(Order* o){
 	std::vector<Point3D> points;
 	points.push_back(o->source);
 	//TODO: other stuff goes here
+	Point3D p;
+	p.x = 17;
+	p.y = 17;
+	p.z = 17;
+	points.push_back(p);
 	points.push_back(o->dest);
 	
 	return new Route(o->ID, points);
@@ -36,14 +41,11 @@ Route* RouteManager::CalculateRoute(Order* o){
 void RouteManager::writeDatabase(std::string file){
 	std::ofstream outputFile(file);
 	if (outputFile.is_open()) {
-		outputFile << "OrderID,";
-		outputFile << "SrcX,";
-		outputFile << "SrcY,";
-		outputFile << "SrcZ,";
-		outputFile << "DestX,";
-		outputFile << "DestY,";
-		outputFile << "DestZ,";
-		outputFile << "StatusKey,";
+		outputFile << "RouteID,";
+		outputFile << "OrderKey,";
+		outputFile << "X,";
+		outputFile << "Y,";
+		outputFile << "Z,";
 		outputFile << "\n";
 
 		std::vector<Route*> temp = getRoutes();

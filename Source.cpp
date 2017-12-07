@@ -35,10 +35,11 @@ int main(void) {
 	//om->CreateOrder(to);
 
 	om->run();
-	//om->writeDatabase("DailyOrders.csv");
+	om->writeDatabase("DailyOrders.csv");
 
 	RouteManager* rm = new RouteManager(om);
 	rm->run();
+	rm->writeDatabase("DailyRoutes.csv");
 
 	system("pause");
 }
