@@ -23,7 +23,7 @@ void Delivery::RunOrderManager(){
 
 void Delivery::RunRouteManager(){
 	rm->run();
-	//rm->writeDatabase("DailyRoutes.csv");
+	rm->writeDatabase("DailyRoutes.csv");
 }
 
 void Delivery::RunDroneManager(){

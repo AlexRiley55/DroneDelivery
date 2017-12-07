@@ -5,6 +5,7 @@
 #include "RouteDAO.h"
 #include "OrderManager.h"
 #include "RouteManager.h"
+#include "Delivery.h"
 
 Order* testOrder();
 Route* testRoute();
@@ -27,6 +28,7 @@ int main(void) {
 	rd->getRouteCount();
 	*/
 
+	/*
 	OrderManager* om = new OrderManager();
 
 	std::cout << om->fileName << "\n";
@@ -40,6 +42,11 @@ int main(void) {
 	RouteManager* rm = new RouteManager(om);
 	rm->run();
 	rm->writeDatabase("DailyRoutes.csv");
+	*/
+
+	Delivery d;
+
+	d.Activate();
 
 	system("pause");
 }
