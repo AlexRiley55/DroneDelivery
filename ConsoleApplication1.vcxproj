@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Delivery.h" />
     <ClInclude Include="Drone.h" />
+    <ClInclude Include="DroneDAO.h" />
     <ClInclude Include="DroneManager.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Order.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="ConsoleApplication1.cpp" />
     <ClCompile Include="Delivery.cpp" />
     <ClCompile Include="Drone.cpp" />
+    <ClCompile Include="DroneDAO.cpp" />
     <ClCompile Include="DroneManager.cpp" />
     <ClCompile Include="OrderDAO.cpp" />
     <ClCompile Include="OrderManager.cpp" />

@@ -23,9 +23,9 @@ DroneManager::~DroneManager() {
 void DroneManager::run() {
 	WriteDrones();
 
-	while (1) {//TODO: while !completed
+	//while (1) {//TODO: while !completed
 		CheckStatuses();
-	}
+	//}
 }
 
 void DroneManager::UpdateStatus() {

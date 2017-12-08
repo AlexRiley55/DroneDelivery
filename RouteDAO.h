@@ -35,7 +35,7 @@ public:
 	void DeleteRoute(int id);
 
 	std::vector<Route*> getRoutes();
-	std::vector<Point3D> RouteDAO::getPoints(int id);
+	std::vector<Point3D> getPoints(int id);
 };
 
 #endif

@@ -77,6 +77,8 @@ std::vector<Order*> OrderDAO::getOrders(){
 		output.push_back(out);
 	}
 
+	delete res;
+
 	return output;
 }
 
@@ -101,6 +103,7 @@ std::vector<Order*> OrderDAO::getInitialOrders() {
 		output.push_back(out);
 	}
 
+	delete res;
 	return output;
 }
 
@@ -111,6 +114,7 @@ Order* OrderDAO::ReadOrder(int id) {
 	sql::Statement* stmt = con->createStatement();
 	std::string query = "SELECT * FROM orders WHERE OrderID = " + id;
 	sql::ResultSet* res = stmt->executeQuery(query);
+	delete stmt;
 
 	res->next();
 	Point3D s;
@@ -119,6 +123,7 @@ Order* OrderDAO::ReadOrder(int id) {
 	d.x = res->getInt(5);  d.y = res->getInt(6); d.z = res->getInt(7);
 
 	Order* out = new Order(res->getInt(1), s, d, res->getInt(8));
+	delete res;
 	return out;
 }
 

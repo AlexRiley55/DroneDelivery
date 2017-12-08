@@ -26,10 +26,12 @@ Route*  RouteDAO::CreateRoute(Route* r) {
 	pstmt->setInt(1, r->OrderKey);
 	
 	int resInt = pstmt->executeUpdate();
+	delete pstmt;
 
 	PKStmt = con->createStatement();
 
 	res = PKStmt->executeQuery("SELECT LAST_INSERT_ID() AS id;"); //TODO: is this thread safe?
+	delete PKStmt;
 
 	res->next();
 	int PK = res->getInt("id");
@@ -41,7 +43,6 @@ Route*  RouteDAO::CreateRoute(Route* r) {
 	}
 
 	delete res;
-	delete pstmt;
 	return r;
 	
 }
@@ -59,10 +60,10 @@ void RouteDAO::CreatePoint(int routeID, int pointNum, Point3D p)
 	pstmt->setInt(5, p.z);
 
 	int resInt = pstmt->executeUpdate();
+	delete pstmt;
+
 	std::cout << "Create Point result:" << resInt << std::endl; //TODO: is this right?
 
-	//delete res;
-	delete pstmt;
 }
 
 
@@ -71,13 +72,14 @@ int RouteDAO::getRouteCount() {
 	sql::ResultSet *res;
 	stmt = con->createStatement();//TODO: use prepared statement
 	res = stmt->executeQuery("SELECT * FROM Routes");
+	delete stmt;
+
 	int count = 0;
 	while (res->next()) {
 		count++;
 	}
 	std::cout << "Row count " << count << std::endl;
 	delete res;
-	delete stmt;
 	return count;
 }
 
@@ -88,16 +90,18 @@ Route* RouteDAO::ReadRoute(int id) {//TODO: unfinished
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();
-	std::string query = "SELECT * FROM Routes r,RoutePosition rp WHERE RouteID = " + id;
+	std::string query = "SELECT * FROM Routes r,RoutePosition rp WHERE RouteID = " + id;//TODO I don't think this actually works, should be tested.
 	query += " AND r.RouteID = rp.RoutesKey";
 	res = stmt->executeQuery(query);
+	delete stmt;
+
 	while (res->next()) {
 		cout << res->getString("_message") << endl;
 		cout << res->getString(1) << endl;
 	}
 	
-
-	Route* out = new Route();
+	delete res;
+	Route* out = new Route();//TODO either do this or remove for final version
 	return out;
 }
 
@@ -115,7 +119,6 @@ std::vector<Route*> RouteDAO::getRoutes(){
 	sql::ResultSet *res;
 	stmt = con->createStatement();
 	res = stmt->executeQuery("SELECT * FROM Routes r");
-
 	delete stmt;
 
 	std::vector<Route*> output;
@@ -128,6 +131,7 @@ std::vector<Route*> RouteDAO::getRoutes(){
 		output.push_back(out);
 	}
 
+	delete res;
 	return output;
 }
 
@@ -148,6 +152,7 @@ std::vector<Point3D> RouteDAO::getPoints(int id) {
 	pstmt->setInt(1, id);
 
 	res = pstmt->executeQuery();
+	delete pstmt;
 
 	std::vector<Point3D> output;
 
@@ -161,6 +166,7 @@ std::vector<Point3D> RouteDAO::getPoints(int id) {
 		output.push_back(p);
 	}
 	
+	delete res;
 	return output;
 }
 
