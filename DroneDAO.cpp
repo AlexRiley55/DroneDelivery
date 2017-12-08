@@ -3,21 +3,25 @@
 
 
 DroneDAO::DroneDAO(){
-
+	/* Create a connection */
+	driver = get_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "tree");
+	/* Connect to the MySQL test database */
+	con->setSchema("delivery");
 }
 
 
 DroneDAO::~DroneDAO(){
-
+	delete con;
 }
 
 Drone * DroneDAO::CreateDrone(Drone * d){
 	sql::PreparedStatement *pstmt;
 
-	pstmt = con->prepareStatement("INSERT INTO Drones (OrderKey,RoutesKey,DroneStatusKey) VALUES(?,?,?)");
-	pstmt->setInt(1, d->order.ID);
-	pstmt->setInt(2, d->route.ID);
-	pstmt->setInt(3, d->droneStatus);
+	pstmt = con->prepareStatement("INSERT INTO Drones (DroneStatusKey) VALUES(?)");
+	//pstmt->setInt(1, d->order.ID);//TODO add a version to upload a full drone
+	//pstmt->setInt(2, d->route.ID);
+	pstmt->setInt(1, d->Status);
 
 	int resInt = pstmt->executeUpdate();
 	delete pstmt;

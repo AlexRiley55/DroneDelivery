@@ -95,6 +95,10 @@ void OrderManager::CreateOrder(Order* o){
 	DAO->CreateOrder(o);
 }
 
+Order * OrderManager::ReadOrder(int id){
+	return DAO->ReadOrder(id);
+}
+
 std::vector<Order*> OrderManager::ReadOrders(std::string s){
 	return std::vector<Order*>();//TODO:do this
 }

@@ -4,7 +4,7 @@
 Delivery::Delivery(){
 	om = new OrderManager();
 	rm = new RouteManager(om);
-	dm = new DroneManager();
+	dm = new DroneManager(om, rm);
 }
 
 Delivery::~Delivery(){

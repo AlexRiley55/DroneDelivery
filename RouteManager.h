@@ -21,6 +21,7 @@ public:
 	void writeDatabase(std::string file);
 
 	std::vector<Route*> getRoutes();
+	Route* ReadRoute(int id);
 
 	RouteDAO* DAO;
 	OrderManager* om;

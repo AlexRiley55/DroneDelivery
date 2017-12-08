@@ -5,15 +5,19 @@ Drone::Drone(){
 
 }
 
+Drone::Drone(int s){
+	Status = s;
+}
+
 Drone::Drone(int Ok, int RK, int s){
-	Orderkey = Ok;
+	OrderKey = Ok;
 	RouteKey = RK;
 	Status = s;
 }
 
 Drone::Drone(int id, int Ok, int RK, int s){
 	ID = id;
-	Orderkey = Ok;
+	OrderKey = Ok;
 	RouteKey = RK;
 	Status = s;
 }
@@ -37,14 +41,14 @@ Drone* Drone::operator= (const Drone& i){
 	tmp->ID = i.ID;
 	//tmp->order = i.order; //TODO: do this
 	//tmp->route = i.route; //TODO: do this
-	tmp->droneStatus = i.droneStatus;//will this work?
+	tmp->Status = i.Status;//will this work?
 
 	return tmp;
 }
 
-void Drone::assembly2ndStep(Order o, Route r){
-	order = o;
-	route = r;
+void Drone::assembly2ndStep(Order* o, Route* r){
+	order = *o;
+	route = *r;
 }
 
 void Drone::Deliver(){

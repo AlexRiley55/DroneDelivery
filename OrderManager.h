@@ -22,6 +22,7 @@ public:
 	void ReadOrdersFromFile(std::string file); 
 
 	void CreateOrder(Order* o);
+	Order* ReadOrder(int id);
 	std::vector<Order*> ReadOrders(std::string s);
 	void run();
 

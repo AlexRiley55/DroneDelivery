@@ -75,3 +75,7 @@ std::vector<Route*> RouteManager::getRoutes(){
 	return DAO->getRoutes();
 }
 
+Route * RouteManager::ReadRoute(int id){
+	return DAO->ReadRoute(id);
+}
+
