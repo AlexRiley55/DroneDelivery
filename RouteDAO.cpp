@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "RouteDAO.h"
-using namespace std;
 
 RouteDAO::RouteDAO() {
 	
@@ -96,8 +95,8 @@ Route* RouteDAO::ReadRoute(int id) {//TODO: unfinished
 	delete stmt;
 
 	while (res->next()) {
-		cout << res->getString("_message") << endl;
-		cout << res->getString(1) << endl;
+		std::cout << res->getString("_message") << std::endl;
+		std::cout << res->getString(1) << std::endl;
 	}
 	
 	delete res;
@@ -118,7 +117,7 @@ std::vector<Route*> RouteDAO::getRoutes(){
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT * FROM Routes r");
+	res = stmt->executeQuery("SELECT * FROM Routes");
 	delete stmt;
 
 	std::vector<Route*> output;

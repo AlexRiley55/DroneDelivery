@@ -27,7 +27,7 @@ public:
 
 	void DeleteRoute(int id);
 
-	std::vector<Route*> getDrones();
+	std::vector<Drone*> getDrones();
 };
 
 #endif

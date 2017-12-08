@@ -8,17 +8,20 @@ class Drone
 {
 	enum DroneStatusEnum; //TODO: put this in a header somewhere?
 public:
-	int ID, OrderID, RouteID;
+	int ID, Orderkey, RouteKey, Status;
 	Order order;
 	Route route;
-	DroneStatusEnum droneStatus;
+	int droneStatus;
 
 	Drone();
-	Drone(int DroneID);
+	Drone(int Ok, int RK, int s);
+	Drone(int id, int Ok, int RK, int s);
 	Drone(Drone& other);
 	~Drone();
 
 	Drone* operator= (const Drone& i);
+
+	void assembly2ndStep(Order o, Route r);
 
 	void Deliver();
 	void Return();

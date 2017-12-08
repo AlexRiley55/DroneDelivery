@@ -5,8 +5,17 @@ Drone::Drone(){
 
 }
 
-Drone::Drone(int DroneID){
-	//TODO: take in info from database
+Drone::Drone(int Ok, int RK, int s){
+	Orderkey = Ok;
+	RouteKey = RK;
+	Status = s;
+}
+
+Drone::Drone(int id, int Ok, int RK, int s){
+	ID = id;
+	Orderkey = Ok;
+	RouteKey = RK;
+	Status = s;
 }
 
 Drone::Drone(Drone& other){
@@ -26,13 +35,16 @@ Drone::~Drone(){
 Drone* Drone::operator= (const Drone& i){
 	Drone* tmp = new Drone();
 	tmp->ID = i.ID;
-	tmp->OrderID = i.OrderID;
-	tmp->RouteID = i.RouteID;
 	//tmp->order = i.order; //TODO: do this
 	//tmp->route = i.route; //TODO: do this
 	tmp->droneStatus = i.droneStatus;//will this work?
 
 	return tmp;
+}
+
+void Drone::assembly2ndStep(Order o, Route r){
+	order = o;
+	route = r;
 }
 
 void Drone::Deliver(){
