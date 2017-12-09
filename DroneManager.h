@@ -23,9 +23,10 @@ public:
 	std::vector<Drone*> Drones;
 
 	void run();
-	void UpdateStatus();
+	void UpdateStatus(int DroneID, int newStatus);
+	void Delivered(int DroneID);
 	void CreateDrones();
-	void CheckStatuses();
+	void DistributeRoutes();
 	void HealthCheck();
 
 	Drone* assembly2ndStep(Drone* d);

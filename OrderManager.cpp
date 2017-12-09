@@ -144,17 +144,22 @@ void OrderManager::writeDatabase(std::string file) {//TODO go grab the actual st
 				outputFile << "Route Ready\n";
 				break;
 			case 3:
-				outputFile << "En Route\n";
+				outputFile << "Loading\n";
 				break;
 			case 4:
-				outputFile << "Complete\n";
+				outputFile << "En Route\n";
 				break;
 			case 5:
-				outputFile << "Failed\n";
+				outputFile << "Complete\n";
 				break;
 			case 6:
+				outputFile << "Failed\n";
+				break;
+			case 7:
 				outputFile << "Archived\n";
 				break;
+			default:
+				outputFile << "Failed\n";
 			}
 		}
 

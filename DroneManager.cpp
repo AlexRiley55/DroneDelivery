@@ -26,13 +26,39 @@ DroneManager::~DroneManager() {
 
 void DroneManager::run() {
 	CreateDrones();
-
+	 
 	//while (1) {//TODO: while !completed
-		CheckStatuses();
+		DistributeRoutes();
 	//}
 }
 
-void DroneManager::UpdateStatus() {
+void DroneManager::UpdateStatus(int DroneID, int newStatus) {
+	switch (newStatus) {
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		//set Order to loading
+		break;
+	case 4:
+		//set Order to en route
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		//set Order to failed
+		break;
+	}
+
+	DAO->UpdateRoute(DroneID, newStatus);
+}
+
+void DroneManager::Delivered(int DroneID){
+	//set order to Complete
+	DAO->UpdateRoute(DroneID, 6);
 }
 
 void DroneManager::CreateDrones() {
@@ -45,10 +71,12 @@ void DroneManager::CreateDrones() {
 	}
 }
 
-void DroneManager::CheckStatuses() {
+void DroneManager::DistributeRoutes(){
+
 }
 
-void DroneManager::HealthCheck() {
+
+void DroneManager::HealthCheck() {//TODO should be done with separate threads
 }
 
 Drone * DroneManager::assembly2ndStep(Drone* d){
