@@ -7,6 +7,10 @@ RouteManager::RouteManager(){
 	DAO = new RouteDAO();
 }
 
+void RouteManager::updateOrder(int id, int status){
+	om->updateOrder(id, status);
+}
+
 RouteManager::RouteManager(OrderManager * o){
 	DAO = new RouteDAO();
 	om = o;
@@ -19,7 +23,9 @@ RouteManager::~RouteManager(){
 void RouteManager::run(){
 	std::vector<Order*> orders = om->getInitialOrders();
 	for (unsigned int i = 0; i < orders.size(); i++) {
-		DAO->CreateRoute(CalculateRoute(orders[i]));
+		Order* o = orders[i];
+		DAO->CreateRoute(CalculateRoute(o));
+		updateOrder(o->ID, 2);
 	}
 }
 

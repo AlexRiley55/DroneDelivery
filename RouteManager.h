@@ -10,6 +10,7 @@
 class RouteManager : public Manager{
 private:
 	RouteManager();
+	void updateOrder(int id, int status);
 public:
 	RouteManager(OrderManager* o);
 	~RouteManager();

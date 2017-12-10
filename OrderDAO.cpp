@@ -130,7 +130,7 @@ Order* OrderDAO::ReadOrder(int id) {
 Order* OrderDAO::updateOrder(int id, int newStatus) {//TODO: do this
 	sql::PreparedStatement *pstmt;
 
-	pstmt = con->prepareStatement("UPDATE Orders SET StatusKey = ? WHERE OrderID = ?)");
+	pstmt = con->prepareStatement("UPDATE Orders SET StatusKey = ? WHERE OrderID = ?");
 
 	pstmt->setInt(1, newStatus);
 	pstmt->setInt(2, id);
