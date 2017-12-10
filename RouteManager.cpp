@@ -29,9 +29,7 @@ Route* RouteManager::CalculateRoute(Order* o){
 	points.push_back(o->source);
 	//TODO: other stuff goes here
 	Point3D p;
-	p.x = 17;
-	p.y = 17;
-	p.z = 17;
+	p.randomize();
 	points.push_back(p);
 	points.push_back(o->dest);
 	

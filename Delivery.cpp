@@ -5,6 +5,8 @@ Delivery::Delivery(){
 	om = new OrderManager();
 	rm = new RouteManager(om);
 	dm = new DroneManager(om, rm);
+
+	srand(time(NULL));
 }
 
 Delivery::~Delivery(){

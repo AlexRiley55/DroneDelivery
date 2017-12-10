@@ -28,6 +28,7 @@ public:
 
 	std::vector<Order*> getOrders();
 	std::vector<Order*> getInitialOrders();
+	void updateOrder(int id, int status);
 
 	void writeDatabase(std::string file);
 

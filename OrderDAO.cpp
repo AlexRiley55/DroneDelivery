@@ -127,8 +127,21 @@ Order* OrderDAO::ReadOrder(int id) {
 	return out;
 }
 
-Order* OrderDAO::UpdateOrder(int id, int newStatus) {//TODO: do this
-	Order* out = new Order();
+Order* OrderDAO::updateOrder(int id, int newStatus) {//TODO: do this
+	sql::PreparedStatement *pstmt;
+
+	pstmt = con->prepareStatement("UPDATE Orders SET StatusKey = ? WHERE OrderID = ?)");
+
+	pstmt->setInt(1, newStatus);
+	pstmt->setInt(2, id);
+
+	int resInt = pstmt->executeUpdate();
+
+	std::cout << "Create Order result:" << resInt << std::endl;
+
+	delete pstmt;
+
+	Order* out = new Order();//TODO do this
 	return out;
 }
 

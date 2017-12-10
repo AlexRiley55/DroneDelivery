@@ -91,6 +91,10 @@ std::vector<Order*> OrderManager::getInitialOrders(){
 	return DAO->getInitialOrders();
 }
 
+void OrderManager::updateOrder(int id, int status){//TODO this coupling should use the manager interface more
+	DAO->updateOrder(id, status);
+}
+
 void OrderManager::CreateOrder(Order* o){
 	DAO->CreateOrder(o);
 }

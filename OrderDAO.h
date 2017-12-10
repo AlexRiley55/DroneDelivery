@@ -33,7 +33,7 @@ public:
 	
 	Order* ReadOrder(int id);
 
-	Order* UpdateOrder(int id, int newStatus);
+	Order* updateOrder(int id, int newStatus);
 
 	void DeleteOrder(int id);
 	

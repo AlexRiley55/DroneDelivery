@@ -5,7 +5,10 @@
 #include "RouteManager.h"
 #include "DroneManager.h"
 
-class Delivery{
+#include <random>
+#include <time.h>
+
+class Delivery{//TODO should be a singleton
 public:
 	Delivery();
 	~Delivery();
