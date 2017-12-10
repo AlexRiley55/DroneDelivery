@@ -87,8 +87,8 @@ std::vector<Order*> OrderManager::getOrders(){
 	return DAO->getOrders();
 }
 
-std::vector<Order*> OrderManager::getInitialOrders(){
-	return DAO->getInitialOrders();
+std::vector<Order*> OrderManager::getOrdersByStatus(int status){
+	return DAO->getOrdersByStatus(status);
 }
 
 void OrderManager::updateOrder(int id, int status){//TODO this coupling should use the manager interface more

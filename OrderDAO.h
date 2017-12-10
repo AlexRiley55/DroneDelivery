@@ -29,7 +29,7 @@ public:
 	int getOrderCount();
 
 	std::vector<Order*> getOrders();
-	std::vector<Order*> getInitialOrders();
+	std::vector<Order*> getOrdersByStatus(int status);
 	
 	Order* ReadOrder(int id);
 

@@ -67,8 +67,40 @@ Drone * DroneDAO::ReadRoute(int id){
 	return out;
 }
 
-Drone * DroneDAO::UpdateRoute(int id, int newStatus){//TODO
-	return nullptr;
+Drone * DroneDAO::UpdateRoute(Drone* d){
+	sql::PreparedStatement *pstmt;
+
+	pstmt = con->prepareStatement("UPDATE Drones SET OrderKey = ?, RoutesKey = ?, DroneStatusKey = ? WHERE DroneID = ?");
+
+	pstmt->setInt(1, d->route.OrderKey);
+	pstmt->setInt(2, d->route.ID);
+	pstmt->setInt(3, d->Status);
+	pstmt->setInt(4, d->ID);
+
+	int resInt = pstmt->executeUpdate();
+
+	std::cout << "Create Order result:" << resInt << std::endl;
+
+	delete pstmt;
+
+	return nullptr;//TODO
+}
+
+Drone * DroneDAO::UpdateRoute(int id, int status) {
+	sql::PreparedStatement *pstmt;
+
+	pstmt = con->prepareStatement("UPDATE Drones StatusKey = ? WHERE OrderID = ?");
+
+	pstmt->setInt(1, status);
+	pstmt->setInt(2, id);
+
+	int resInt = pstmt->executeUpdate();
+
+	std::cout << "Create Order result:" << resInt << std::endl;
+
+	delete pstmt;
+
+	return nullptr;//TODO
 }
 
 void DroneDAO::DeleteRoute(int id){//TODO
@@ -91,6 +123,29 @@ std::vector<Drone*> DroneDAO::getDrones(){//only grabs the 4 ints, the DM assemb
 		int s = res->getInt(4);
 
 		Drone* out = new Drone(id, ok, rk, s);
+		output.push_back(out);
+	}
+
+	delete res;
+	return output;
+}
+
+std::vector<Drone*> DroneDAO::getDronesByStatus(int status) {//only grabs the 4 ints, the DM assembles the rest
+	sql::PreparedStatement *pstmt;
+	sql::ResultSet *res;
+	pstmt = con->prepareStatement("SELECT * FROM Drones WHERE DroneStatusKey = ?");
+	pstmt->setInt(1, status);
+	res = pstmt->executeQuery();
+	delete pstmt;
+
+	std::vector<Drone*> output;
+
+	while (res->next()) {
+		int id = res->getInt(1);
+		int ok = res->getInt(2);
+		int rk = res->getInt(3);
+
+		Drone* out = new Drone(id, ok, rk, status);
 		output.push_back(out);
 	}
 

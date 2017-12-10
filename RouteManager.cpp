@@ -21,7 +21,7 @@ RouteManager::~RouteManager(){
 }
 
 void RouteManager::run(){
-	std::vector<Order*> orders = om->getInitialOrders();
+	std::vector<Order*> orders = om->getOrdersByStatus(1);//get initial orders
 	for (unsigned int i = 0; i < orders.size(); i++) {
 		Order* o = orders[i];
 		DAO->CreateRoute(CalculateRoute(o));
@@ -77,6 +77,10 @@ void RouteManager::writeDatabase(std::string file){
 
 std::vector<Route*> RouteManager::getRoutes(){
 	return DAO->getRoutes();
+}
+
+std::vector<Route*> RouteManager::getRoutesByStatus(int status){
+	return DAO->getRoutesByStatus(status);
 }
 
 Route * RouteManager::ReadRoute(int id){

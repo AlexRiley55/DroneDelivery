@@ -35,6 +35,7 @@ public:
 	void DeleteRoute(int id);
 
 	std::vector<Route*> getRoutes();
+	std::vector<Route*> getRoutesByStatus(int status);
 	std::vector<Point3D> getPoints(int id);
 };
 

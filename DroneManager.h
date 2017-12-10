@@ -13,6 +13,7 @@
 class DroneManager : public Manager {
 private:
 	size_t targetDroneNum;
+	std::vector<Route*> getRoutesByStatus(int status);
 
 public:
 	DroneManager();

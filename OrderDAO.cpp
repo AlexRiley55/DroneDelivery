@@ -18,8 +18,6 @@ OrderDAO::~OrderDAO() {
 
 void  OrderDAO::CreateOrder(Order* o) {
 	sql::PreparedStatement *pstmt;
-	//sql::ResultSet *res;
-	
 	pstmt = con->prepareStatement("INSERT INTO Orders (SrcX, SrcY, SrcZ, DestX, DestY, DestZ, StatusKey) VALUES(?, ?, ?, ?, ?, ?, ?)");
 
 	pstmt->setInt(1, o->source.x);
@@ -60,7 +58,7 @@ std::vector<Order*> OrderDAO::getOrders(){
 	sql::Statement *stmt;
 	sql::ResultSet *res;
 	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT * FROM Orders o, Status s WHERE o.StatusKey = s.StatusID");
+	res = stmt->executeQuery("SELECT * FROM Orders");
 
 	delete stmt;
 
@@ -82,13 +80,15 @@ std::vector<Order*> OrderDAO::getOrders(){
 	return output;
 }
 
-std::vector<Order*> OrderDAO::getInitialOrders() {
-	sql::Statement *stmt;
+std::vector<Order*> OrderDAO::getOrdersByStatus(int status) {
+	sql::PreparedStatement *pstmt;
 	sql::ResultSet *res;
-	stmt = con->createStatement();
-	res = stmt->executeQuery("SELECT * FROM Orders o, Status s WHERE o.StatusKey = s.StatusID AND s.StatusDesc = \'Initial\'");
+	pstmt = con->prepareStatement("SELECT * FROM Orders WHERE StatusKey = ?");
+	pstmt->setInt(1, status);
 
-	delete stmt;
+	res = pstmt->executeQuery();
+
+	delete pstmt;
 
 	std::vector<Order*> output;
 
@@ -127,7 +127,7 @@ Order* OrderDAO::ReadOrder(int id) {
 	return out;
 }
 
-Order* OrderDAO::updateOrder(int id, int newStatus) {//TODO: do this
+Order* OrderDAO::updateOrder(int id, int newStatus) {
 	sql::PreparedStatement *pstmt;
 
 	pstmt = con->prepareStatement("UPDATE Orders SET StatusKey = ? WHERE OrderID = ?");

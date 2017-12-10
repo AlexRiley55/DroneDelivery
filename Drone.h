@@ -16,6 +16,7 @@ public:
 	Drone(int s);//TODO use builder
 	Drone(int Ok, int RK, int s);
 	Drone(int id, int Ok, int RK, int s);
+	Drone(int id, int Ok, int RK, int s, Order* o, Route* r);
 	Drone(Drone& other);
 	~Drone();
 

@@ -22,6 +22,16 @@ Drone::Drone(int id, int Ok, int RK, int s){
 	Status = s;
 }
 
+Drone::Drone(int id, int Ok, int RK, int s, Order * o, Route * r){
+	ID = id;
+	OrderKey = Ok;
+	RouteKey = RK;
+	Status = s;
+
+	order = *o;
+	route = *r;
+}
+
 Drone::Drone(Drone& other){
 	ID = other.ID; //TODO: change these to claim a new ID
 	//OrderID

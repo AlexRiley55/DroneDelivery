@@ -22,6 +22,7 @@ public:
 	void writeDatabase(std::string file);
 
 	std::vector<Route*> getRoutes();
+	std::vector<Route*> getRoutesByStatus(int status);
 	Route* ReadRoute(int id);
 
 	RouteDAO* DAO;

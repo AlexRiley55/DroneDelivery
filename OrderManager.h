@@ -13,7 +13,7 @@
 
 class OrderManager : public Manager{
 private:
-	
+
 public:
 	OrderManager();
 	OrderManager(std::string fn);
@@ -27,7 +27,7 @@ public:
 	void run();
 
 	std::vector<Order*> getOrders();
-	std::vector<Order*> getInitialOrders();
+	std::vector<Order*> getOrdersByStatus(int status);
 	void updateOrder(int id, int status);
 
 	void writeDatabase(std::string file);

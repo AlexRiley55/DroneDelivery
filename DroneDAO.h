@@ -23,11 +23,13 @@ public:
 
 	Drone* ReadRoute(int id);
 
-	Drone* UpdateRoute(int id, int newStatus);
+	Drone* UpdateRoute(int id, int status);
+	Drone* UpdateRoute(Drone* d);
 
 	void DeleteRoute(int id);
 
 	std::vector<Drone*> getDrones();
+	std::vector<Drone*> DroneDAO::getDronesByStatus(int status);
 };
 
 #endif

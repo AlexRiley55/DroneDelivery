@@ -134,6 +134,28 @@ std::vector<Route*> RouteDAO::getRoutes(){
 	return output;
 }
 
+std::vector<Route*> RouteDAO::getRoutesByStatus(int status){
+	sql::PreparedStatement *pstmt;
+	sql::ResultSet *res;
+	pstmt = con->prepareStatement("SELECT * FROM Routes r, Orders o WHERE r.orderKey = o.OrderID AND o.StatusKey = ?");
+	pstmt->setInt(1, status);
+	res = pstmt->executeQuery();
+	delete pstmt;
+
+	std::vector<Route*> output;
+
+	while (res->next()) {
+		int ok = res->getInt(2);
+		int id = res->getInt(1);
+		std::vector<Point3D> vec = getPoints(id);
+		Route* out = new Route(ok, id, vec);
+		output.push_back(out);
+	}
+
+	delete res;
+	return output;
+}
+
 std::vector<Point3D> RouteDAO::getPoints(int id) {
 	/*sql::Statement *stmt;
 	sql::ResultSet *res;

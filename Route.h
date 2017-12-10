@@ -32,6 +32,7 @@ public:
 
 	Route* operator =(Route& other) {
 		OrderKey = other.OrderKey;
+		ID = other.ID;
 		Routes = other.Routes;
 		return this;
 	}

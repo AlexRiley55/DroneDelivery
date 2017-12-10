@@ -3,6 +3,10 @@
 
 
 
+std::vector<Route*> DroneManager::getRoutesByStatus(int status){
+	return rm->getRoutesByStatus(status);
+}
+
 DroneManager::DroneManager() {
 	targetDroneNum = DRONENUM;
 	DAO = new DroneDAO();
@@ -28,7 +32,7 @@ void DroneManager::run() {
 	CreateDrones();
 	 
 	//while (1) {//TODO: while !completed
-		DistributeRoutes();
+	DistributeRoutes();
 	//}
 }
 
@@ -72,7 +76,14 @@ void DroneManager::CreateDrones() {
 }
 
 void DroneManager::DistributeRoutes(){
-
+	std::vector<Drone*> drones = DAO->getDronesByStatus(1);
+	std::vector<Route*> routes = getRoutesByStatus(2);//TODO add failed orders?
+	int i = 0;
+	while (i < drones.size() && i < routes.size()) {
+		drones[i]->route = *routes[i];
+		DAO->UpdateRoute(drones[i]);
+		i++;
+	}
 }
 
 
