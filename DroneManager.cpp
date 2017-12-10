@@ -34,6 +34,7 @@ void DroneManager::run() {
 	//while (1) {//TODO: while !completed
 	DistributeRoutes();
 	//}
+	writeDatabase("DailyDrones.csv");
 }
 
 void DroneManager::UpdateStatus(int DroneID, int newStatus) {
@@ -98,5 +99,26 @@ Drone * DroneManager::assembly2ndStep(Drone* d){
 }
 
 void DroneManager::writeDatabase(std::string file){
+	std::ofstream outputFile(file);
+	if (outputFile.is_open()) {
+		outputFile << "DroneID,";
+		outputFile << "OrderKey,";
+		outputFile << "RoutesKey,";
+		outputFile << "DroneStatusKey";
+		outputFile << "\n";
 
+		std::vector<Drone*> temp = DAO->getDrones();
+		for (int i = 0; i < temp.size(); i++) {
+			outputFile << temp[i]->ID;
+			outputFile << ",";
+			outputFile << temp[i]->OrderKey;
+			outputFile << ",";
+			outputFile << temp[i]->RouteKey;
+			outputFile << ",";
+			outputFile << temp[i]->Status;
+			outputFile << "\n";
+		}
+
+		outputFile.close();
+	}
 }
