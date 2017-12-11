@@ -26,7 +26,7 @@ public:
 	Drone* UpdateRoute(int id, int status);
 	Drone* UpdateRoute(Drone* d);
 
-	void CleanDirtyBit(int ID);
+	void CleanDirtyBit(int ID, int newBit);
 
 	void DeleteRoute(int id);
 

@@ -31,11 +31,14 @@ DroneManager::~DroneManager() {
 void DroneManager::run() {
 	CreateDrones();
 
-	while (1) {
+	int i = 1;
+	while (i > 0) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(TICKTIME));
 
 		DistributeRoutes();
 		HealthCheck();
+		std::cout << "tick " << i << "\n";
+		i++;
 		writeDatabase("DailyDrones.csv");
 	}
 }
@@ -80,14 +83,17 @@ void DroneManager::CreateDrones() {
 }
 
 void DroneManager::DistributeRoutes(){
-	std::vector<Drone*> drones = DAO->getDirtyDronesByStatus(2);
+	std::vector<Drone*> drones = DAO->getDronesByStatus(2);
 	std::vector<Route*> routes = getRoutesByStatus(2);//TODO add failed orders?
 	int i = 0;
 	while (i < drones.size() && i < routes.size()) {
 		drones[i]->route = *routes[i];
+		drones[i]->Status = 3;
 		DAO->UpdateRoute(drones[i]);
+		DAO->CleanDirtyBit(drones[i]->ID, 1);
 		i++;
 	}
+	std::cout << i << " routes distributed this tick\n";
 }
 
 void DroneManager::HealthCheck() {//TODO should be done with separate threads
@@ -102,6 +108,7 @@ void DroneManager::HealthCheck() {//TODO should be done with separate threads
 			std::cout << "Charge: " << command << "\n";
 			str = &command[0u];
 			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		case 2:
 			//wait to distribute routes
@@ -111,39 +118,44 @@ void DroneManager::HealthCheck() {//TODO should be done with separate threads
 			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(LOADTIME);
 			std::cout << "Load: " << command << "\n";
 			str = &command[0u];
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		case 4:
 			//send en route
 			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(ROUTETIME);
 			std::cout << "Route: " << command << "\n";
 			str = &command[0u];
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		case 5:
 			//send delivering
 			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(DELIVERTIME);
 			std::cout << "Deliver: " << command << "\n";
 			str = &command[0u];
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		case 6:
 			//send returning
 			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(ROUTETIME);
 			std::cout << "Return: " << command << "\n";
 			str = &command[0u];
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		case 7:
 			//crashed do nothing //TODO have this do something at some point
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		default:
 			//crashed do nothing //TODO have this do something at some point
+			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
 		}
-
-		DAO->CleanDirtyBit(drones[i]->ID);
 	}
+	std::cout << drones.size() << " drones updated this tick\n";
 }
 
 Drone * DroneManager::assembly2ndStep(Drone* d){
