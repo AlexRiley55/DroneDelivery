@@ -80,7 +80,7 @@ void DroneManager::CreateDrones() {
 }
 
 void DroneManager::DistributeRoutes(){
-	std::vector<Drone*> drones = DAO->getDronesByStatus(1);
+	std::vector<Drone*> drones = DAO->getDirtyDronesByStatus(1);
 	std::vector<Route*> routes = getRoutesByStatus(2);//TODO add failed orders?
 	int i = 0;
 	while (i < drones.size() && i < routes.size()) {
@@ -90,76 +90,79 @@ void DroneManager::DistributeRoutes(){
 	}
 }
 
-
+#include <ShellApi.h>
 void DroneManager::HealthCheck() {//TODO should be done with separate threads
-	std::vector<Drone*> drones = DAO->getDrones();
+	std::vector<Drone*> drones = DAO->getDirtyDrones();
 	for (int i = 0; i < drones.size(); i++) {
 		std::string command;
 		switch (drones[i]->Status) {
 		case 1:
 			//charge drone
-			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command = "" + drones[i]->ID;
 			command += " ";
 			command += drones[i]->Status;
 			command += " ";
 			command += drones[i]->OrderKey;
 			command += " ";
 			command += CHARGETIME;
-			system(command.c_str());
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 2:
 			//wait to distribute routes
 			break;
 		case 3:
 			//send loading
-			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command = "" + drones[i]->ID;
 			command += " ";
 			command += drones[i]->Status;
 			command += " ";
 			command += drones[i]->OrderKey;
 			command += " ";
 			command += LOADTIME;
-			system(command.c_str());
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 4:
 			//send en route
-			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command = "" + drones[i]->ID;
 			command += " ";
 			command += drones[i]->Status;
 			command += " ";
 			command += drones[i]->OrderKey;
 			command += " ";
 			command += ROUTETIME;
-			system(command.c_str());
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 5:
 			//send delivering
-			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command = "" + drones[i]->ID;
 			command += " ";
 			command += drones[i]->Status;
 			command += " ";
 			command += drones[i]->OrderKey;
 			command += " ";
 			command += DELIVERTIME;
-			system(command.c_str());
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 6:
 			//send returning
-			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command = "" + drones[i]->ID;
 			command += " ";
 			command += drones[i]->Status;
 			command += " ";
 			command += drones[i]->OrderKey;
 			command += " ";
 			command += ROUTETIME;
-			system(command.c_str());
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 7:
 			//crashed do nothing //TODO have this do something at some point
 			break;
 		default:
+			//crashed do nothing //TODO have this do something at some point
 			break;
 		}
+
+		DAO->CleanDirtyBit(drones[i]->ID);
 	}
 }
 

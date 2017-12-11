@@ -26,10 +26,14 @@ public:
 	Drone* UpdateRoute(int id, int status);
 	Drone* UpdateRoute(Drone* d);
 
+	void CleanDirtyBit(int ID);
+
 	void DeleteRoute(int id);
 
 	std::vector<Drone*> getDrones();
+	std::vector<Drone*> getDirtyDrones();
 	std::vector<Drone*> DroneDAO::getDronesByStatus(int status);
+	std::vector<Drone*> getDirtyDronesByStatus(int status);
 };
 
 #endif

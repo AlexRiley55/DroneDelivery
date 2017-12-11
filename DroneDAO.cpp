@@ -17,15 +17,36 @@ DroneDAO::~DroneDAO(){
 
 Drone * DroneDAO::CreateDrone(Drone * d){
 	sql::PreparedStatement *pstmt;
-
+	sql::Statement *IDpstmt;
+	sql::ResultSet *res;
 	pstmt = con->prepareStatement("INSERT INTO Drones (DroneStatusKey) VALUES(?)");
 	//pstmt->setInt(1, d->order.ID);//TODO add a version to upload a full drone
 	//pstmt->setInt(2, d->route.ID);
 	pstmt->setInt(1, d->Status);
 
 	int resInt = pstmt->executeUpdate();
-	delete pstmt;
 	//TODO stored procedure to fill other tables if they don't exist.
+
+	IDpstmt = con->createStatement();
+	res = IDpstmt->executeQuery("SELECT LAST_INSERT_ID() AS id;"); //TODO: is this thread safe?
+	delete pstmt;
+
+	res->next();
+	int id = res->getInt("id");
+	delete IDpstmt;
+	delete res;
+
+	sql::PreparedStatement *dbpstmt;
+
+	dbpstmt = con->prepareStatement("INSERT INTO DroneDirtyBit (DroneKey, DirtyBit) VALUES(?, ?)");
+	dbpstmt->setInt(1, id);
+	dbpstmt->setInt(2, 1);
+
+	int resInt2 = dbpstmt->executeUpdate();
+
+	std::cout << "Update Dirty Bit result:" << resInt2 << std::endl;
+
+	delete dbpstmt;
 
 	return nullptr;//TODO return the drone back
 }
@@ -86,6 +107,19 @@ Drone * DroneDAO::UpdateRoute(Drone* d){
 	return nullptr;//TODO
 }
 
+void DroneDAO::CleanDirtyBit(int ID) {
+	sql::PreparedStatement *dbpstmt;
+
+	dbpstmt = con->prepareStatement("UPDATE DroneDirtyBit SET DirtyBit = 1 WHERE DroneKey = ?");
+	dbpstmt->setInt(1, ID);
+
+	int resInt = dbpstmt->executeUpdate();
+
+	std::cout << "Update DirtyBit result:" << resInt << std::endl;
+
+	delete dbpstmt;
+}
+
 Drone * DroneDAO::UpdateRoute(int id, int status) {
 	sql::PreparedStatement *pstmt;
 
@@ -130,10 +164,56 @@ std::vector<Drone*> DroneDAO::getDrones(){//only grabs the 4 ints, the DM assemb
 	return output;
 }
 
+std::vector<Drone*> DroneDAO::getDirtyDrones() {//only grabs the 4 ints, the DM assembles the rest
+	sql::Statement *stmt;
+	sql::ResultSet *res;
+	stmt = con->createStatement();
+	res = stmt->executeQuery("SELECT * FROM Drones d, DroneDirtyBit db WHERE d.DroneID = db.DroneKey AND db.DirtyBit = 1;");
+	delete stmt;
+
+	std::vector<Drone*> output;
+
+	while (res->next()) {
+		int id = res->getInt(1);
+		int ok = res->getInt(2);
+		int rk = res->getInt(3);
+		int s = res->getInt(4);
+
+		Drone* out = new Drone(id, ok, rk, s);
+		output.push_back(out);
+	}
+
+	delete res;
+	return output;
+}
+
 std::vector<Drone*> DroneDAO::getDronesByStatus(int status) {//only grabs the 4 ints, the DM assembles the rest
 	sql::PreparedStatement *pstmt;
 	sql::ResultSet *res;
 	pstmt = con->prepareStatement("SELECT * FROM Drones WHERE DroneStatusKey = ?");
+	pstmt->setInt(1, status);
+	res = pstmt->executeQuery();
+	delete pstmt;
+
+	std::vector<Drone*> output;
+
+	while (res->next()) {
+		int id = res->getInt(1);
+		int ok = res->getInt(2);
+		int rk = res->getInt(3);
+
+		Drone* out = new Drone(id, ok, rk, status);
+		output.push_back(out);
+	}
+
+	delete res;
+	return output;
+}
+
+std::vector<Drone*> DroneDAO::getDirtyDronesByStatus(int status) {//only grabs the 4 ints, the DM assembles the rest
+	sql::PreparedStatement *pstmt;
+	sql::ResultSet *res;
+	pstmt = con->prepareStatement("SELECT * FROM Drones d, DroneDirtyBit db WHERE d.DroneID = db.DroneKey AND db.DirtyBit = 1 AND DroneStatusKey = ?");
 	pstmt->setInt(1, status);
 	res = pstmt->executeQuery();
 	delete pstmt;

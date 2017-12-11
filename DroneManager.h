@@ -17,6 +17,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <Windows.h>
 
 class DroneManager : public Manager {
 private:
