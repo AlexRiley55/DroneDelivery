@@ -30,11 +30,14 @@ DroneManager::~DroneManager() {
 
 void DroneManager::run() {
 	CreateDrones();
-	 
-	//while (1) {//TODO: while !completed
-	DistributeRoutes();
-	//}
-	writeDatabase("DailyDrones.csv");
+
+	while (1) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(TICKTIME));
+
+		DistributeRoutes();
+		HealthCheck();
+		writeDatabase("DailyDrones.csv");
+	}
 }
 
 void DroneManager::UpdateStatus(int DroneID, int newStatus) {
@@ -89,6 +92,75 @@ void DroneManager::DistributeRoutes(){
 
 
 void DroneManager::HealthCheck() {//TODO should be done with separate threads
+	std::vector<Drone*> drones = DAO->getDrones();
+	for (int i = 0; i < drones.size(); i++) {
+		std::string command;
+		switch (drones[i]->Status) {
+		case 1:
+			//charge drone
+			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command += " ";
+			command += drones[i]->Status;
+			command += " ";
+			command += drones[i]->OrderKey;
+			command += " ";
+			command += CHARGETIME;
+			system(command.c_str());
+			break;
+		case 2:
+			//wait to distribute routes
+			break;
+		case 3:
+			//send loading
+			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command += " ";
+			command += drones[i]->Status;
+			command += " ";
+			command += drones[i]->OrderKey;
+			command += " ";
+			command += LOADTIME;
+			system(command.c_str());
+			break;
+		case 4:
+			//send en route
+			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command += " ";
+			command += drones[i]->Status;
+			command += " ";
+			command += drones[i]->OrderKey;
+			command += " ";
+			command += ROUTETIME;
+			system(command.c_str());
+			break;
+		case 5:
+			//send delivering
+			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command += " ";
+			command += drones[i]->Status;
+			command += " ";
+			command += drones[i]->OrderKey;
+			command += " ";
+			command += DELIVERTIME;
+			system(command.c_str());
+			break;
+		case 6:
+			//send returning
+			command = "C:\\Users\\Alex\\Desktop\\College\\Senior Project 2\\DroneProcess\\Release\\DroneProcess.exe" + drones[i]->ID;
+			command += " ";
+			command += drones[i]->Status;
+			command += " ";
+			command += drones[i]->OrderKey;
+			command += " ";
+			command += ROUTETIME;
+			system(command.c_str());
+			break;
+		case 7:
+			//crashed do nothing //TODO have this do something at some point
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 Drone * DroneManager::assembly2ndStep(Drone* d){

@@ -2,6 +2,12 @@
 #define __DRONEMANAGER_H
 
 #define DRONENUM 6
+#define CHARGETIME 5000
+#define LOADTIME 1000
+#define DELIVERTIME 1000
+#define ROUTETIME 5000
+
+#define TICKTIME 1000
 
 #include "Manager.h"
 #include "OrderManager.h"
@@ -9,6 +15,8 @@
 #include "DroneDAO.h"
 #include "Drone.h"
 #include <vector>
+#include <chrono>
+#include <thread>
 
 class DroneManager : public Manager {
 private:
