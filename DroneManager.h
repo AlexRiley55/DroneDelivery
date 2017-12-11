@@ -18,6 +18,8 @@
 #include <chrono>
 #include <thread>
 #include <Windows.h>
+#include <ShellApi.h>
+#include <string>
 
 class DroneManager : public Manager {
 private:

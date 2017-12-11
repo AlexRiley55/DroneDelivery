@@ -80,7 +80,7 @@ void DroneManager::CreateDrones() {
 }
 
 void DroneManager::DistributeRoutes(){
-	std::vector<Drone*> drones = DAO->getDirtyDronesByStatus(1);
+	std::vector<Drone*> drones = DAO->getDirtyDronesByStatus(2);
 	std::vector<Route*> routes = getRoutesByStatus(2);//TODO add failed orders?
 	int i = 0;
 	while (i < drones.size() && i < routes.size()) {
@@ -90,69 +90,49 @@ void DroneManager::DistributeRoutes(){
 	}
 }
 
-#include <ShellApi.h>
 void DroneManager::HealthCheck() {//TODO should be done with separate threads
 	std::vector<Drone*> drones = DAO->getDirtyDrones();
 	for (int i = 0; i < drones.size(); i++) {
 		std::string command;
+		const char* str;
 		switch (drones[i]->Status) {
 		case 1:
 			//charge drone
-			command = "" + drones[i]->ID;
-			command += " ";
-			command += drones[i]->Status;
-			command += " ";
-			command += drones[i]->OrderKey;
-			command += " ";
-			command += CHARGETIME;
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
+			command = std::to_string(drones[i]->ID) + " " +std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(CHARGETIME);
+			std::cout << "Charge: " << command << "\n";
+			str = &command[0u];
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
 			break;
 		case 2:
 			//wait to distribute routes
 			break;
 		case 3:
 			//send loading
-			command = "" + drones[i]->ID;
-			command += " ";
-			command += drones[i]->Status;
-			command += " ";
-			command += drones[i]->OrderKey;
-			command += " ";
-			command += LOADTIME;
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
+			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(LOADTIME);
+			std::cout << "Load: " << command << "\n";
+			str = &command[0u];
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 4:
 			//send en route
-			command = "" + drones[i]->ID;
-			command += " ";
-			command += drones[i]->Status;
-			command += " ";
-			command += drones[i]->OrderKey;
-			command += " ";
-			command += ROUTETIME;
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
+			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(ROUTETIME);
+			std::cout << "Route: " << command << "\n";
+			str = &command[0u];
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 5:
 			//send delivering
-			command = "" + drones[i]->ID;
-			command += " ";
-			command += drones[i]->Status;
-			command += " ";
-			command += drones[i]->OrderKey;
-			command += " ";
-			command += DELIVERTIME;
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
+			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(DELIVERTIME);
+			std::cout << "Deliver: " << command << "\n";
+			str = &command[0u];
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 6:
 			//send returning
-			command = "" + drones[i]->ID;
-			command += " ";
-			command += drones[i]->Status;
-			command += " ";
-			command += drones[i]->OrderKey;
-			command += " ";
-			command += ROUTETIME;
-			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneProcess\\Release\\DroneProcess.exe", command.c_str(), NULL, 0);
+			command = std::to_string(drones[i]->ID) + " " + std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(ROUTETIME);
+			std::cout << "Return: " << command << "\n";
+			str = &command[0u];
+			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", command.c_str(), NULL, 0);
 			break;
 		case 7:
 			//crashed do nothing //TODO have this do something at some point

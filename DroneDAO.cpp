@@ -110,7 +110,7 @@ Drone * DroneDAO::UpdateRoute(Drone* d){
 void DroneDAO::CleanDirtyBit(int ID) {
 	sql::PreparedStatement *dbpstmt;
 
-	dbpstmt = con->prepareStatement("UPDATE DroneDirtyBit SET DirtyBit = 1 WHERE DroneKey = ?");
+	dbpstmt = con->prepareStatement("UPDATE DroneDirtyBit SET DirtyBit = 0 WHERE DroneKey = ?");
 	dbpstmt->setInt(1, ID);
 
 	int resInt = dbpstmt->executeUpdate();
