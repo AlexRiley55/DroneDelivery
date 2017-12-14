@@ -107,6 +107,7 @@ void DroneManager::HealthCheck() {//TODO should be done with separate threads
 			command = std::to_string(drones[i]->ID) + " " +std::to_string(drones[i]->Status) + " " + std::to_string(drones[i]->OrderKey) + " " + std::to_string(CHARGETIME);
 			std::cout << "Charge: " << command << "\n";
 			str = &command[0u];
+			//TODO read path from resource file
 			ShellExecuteA(GetDesktopWindow(), "open", "C:\\Users\\Alex\\Desktop\\College\\SeniorProject2\\DroneCode2\\DroneProcess.exe", str, NULL, 0);
 			DAO->CleanDirtyBit(drones[i]->ID, 0);
 			break;
